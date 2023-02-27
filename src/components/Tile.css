@@ -1,0 +1,22 @@
+.tile {
+    display: inline-block;
+    font-size: 45px;
+}
+
+.tile input[type='checkbox'] {
+    visibility: hidden;
+    height: 1px;
+    width: 1px;
+}
+
+.tile.selected {
+    color: red
+}
+
+/*
+This would be so nice to use, but DAMMIT FIREFOX!!!
+
+.tile:has(input[type='checkbox']:checked) {
+    color: red;
+}
+*/
