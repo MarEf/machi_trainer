@@ -17,6 +17,7 @@ function App() {
   const handleTileSelection = (position) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)
     setTileSelect(updatedTileSelection)
+    console.log(tileSelect)
   }
 
   const currentYear = new Date().getUTCFullYear()
