@@ -1,4 +1,4 @@
-const Hand = () => {
+const Hands = () => {
     return (
         <div>
 
@@ -6,4 +6,4 @@ const Hand = () => {
     )
 }
 
-export default Hand
+export default Hands

@@ -1,6 +1,7 @@
 .tile {
     display: inline-block;
-    font-size: 45px;
+    font-size: 55px;
+    color: var(--tile-standard)
 }
 
 .tile input[type='checkbox'] {
@@ -10,7 +11,8 @@
 }
 
 .tile.selected {
-    color: red
+    color: var(--tile-selected);
+    font-weight: bold;
 }
 
 /*

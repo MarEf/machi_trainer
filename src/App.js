@@ -1,7 +1,14 @@
 import React from 'react';
 import './App.css';
-import Tile from './components/Tile'
+import {
+  BrowserRouter as Router,
+  Routes, Route, NavLink
+} from 'react-router-dom'
+
 import tiles from './utils/tiles'
+import Challenge from './components/Challenge';
+import Hands from './components/Hands';
+import Home from './components/Home';
 
 function App() {
 
@@ -12,23 +19,27 @@ function App() {
     setTileSelect(updatedTileSelection)
   }
 
+  const currentYear = new Date().getUTCFullYear()
+
   return (
     <div className="App">
-      <div className='hand'>
-        UNFINISHED MAHJONG HAND GOES HERE
-      </div>
+      <Router>
+        <div className='header'>
+          <NavLink to="/" className={({ isActive }) => (isActive ? "link-active" : "link")}>Home</NavLink>
+          <NavLink to="/challenge" className={({ isActive }) => (isActive ? "link-active" : "link")}>Challenge</NavLink>
+          <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
+        </div>
 
-      <div className='tiles'>
-        {
-          tiles.map(({ tile_id, tile }, index) => {
-            return (
-              <span key={index}>
-                <Tile tile_id={tile_id} tile={tile} challenge={true} value={tileSelect[index]} onChange={() => handleTileSelection(index)} />
-              </span>
-            )
-          }, 0)
-        }
-      </div>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} handleTileSelection={handleTileSelection} tiles={tiles} />} />
+          <Route path="/hands" element={<Hands />} />
+        </Routes>
+
+        <div className='footer'>
+          <i>©{currentYear}, Maria Efimova</i>
+        </div>
+      </Router>
     </div>
   );
 }

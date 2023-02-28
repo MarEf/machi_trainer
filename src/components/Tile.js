@@ -23,8 +23,8 @@ Tile.propTypes = {
     tile_id: PropTypes.string.isRequired,
     tile: PropTypes.string.isRequired,
     challenge: PropTypes.bool.isRequired,
-    value: PropTypes.bool.isRequired,
-    onChange: PropTypes.func.isRequired,
+    value: PropTypes.bool,
+    onChange: PropTypes.func
 }
 
 export default Tile
