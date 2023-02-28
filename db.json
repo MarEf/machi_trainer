@@ -1,0 +1,50 @@
+{
+    "hands": [
+        {
+            "id": 1,
+            "hand": [
+                "B1",
+                "B1",
+                "B1",
+                "M3",
+                "M4",
+                "M5",
+                "M7",
+                "M8",
+                "P4",
+                "P4",
+                "P4",
+                "CHUN",
+                "CHUN"
+            ],
+            "wait": [
+                "M6",
+                "M9"
+            ],
+            "type": {
+                "ref": {
+                    "id": 1,
+                    "uri": "/types/1"
+                }
+            }
+        }
+    ],
+    "types": [
+        {
+            "id": 1,
+            "type": "Simple"
+        },
+        {
+            "id": 3,
+            "type": "Named Combo"
+        },
+        {
+            "id": 4,
+            "type": "Complex Pattern"
+        },
+        {
+            "id": 5,
+            "type": "Yakuman"
+        }
+    ]
+}
