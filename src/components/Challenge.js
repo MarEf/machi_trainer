@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import Hand from './Hand'
 
-const Challenge = ({ tileSelect, handleTileSelection, tiles, mode }) => {
+const Challenge = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode }) => {
     const [currentHand, setCurrentHand] = React.useState(new Array());
     const [currentWait, setCurrentWait] = React.useState(new Array());
 
@@ -31,8 +31,16 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles, mode }) => {
     }, [])
 
     const handleSubmit = () => {
-        console.log(currentWait)
-        console.log("Challenge submitted")
+        /* Sort arrays so that their contents are in the same order before comparing */
+        const wait = [...currentWait].sort()
+        const selection = [...selectedTiles].sort()
+
+        /* Compare selection to expected wait */
+        if (JSON.stringify(wait) === JSON.stringify(selection)) {
+            console.log("Correct!")
+        } else {
+            console.log("Wrong!")
+        }
     }
 
 
@@ -52,7 +60,7 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles, mode }) => {
                     tiles.map(({ tile_id, tile }, index) => {
                         return (
                             <span key={index}>
-                                <Tile tile_id={tile_id} tile={tile} challenge={true} value={tileSelect[index]} onChange={() => handleTileSelection(index)} />
+                                <Tile tile_id={tile_id} tile={tile} challenge={true} value={tileSelect[index]} onChange={() => handleTileSelection(index, tile_id)} />
                             </span>
                         )
                     }, 0)
@@ -65,6 +73,7 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles, mode }) => {
 
 Challenge.propTypes = {
     tileSelect: PropTypes.array.isRequired,
+    selectedTiles: PropTypes.array.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
     tiles: PropTypes.array.isRequired,
     mode: PropTypes.string

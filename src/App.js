@@ -12,12 +12,21 @@ import Home from './components/Home';
 
 function App() {
 
+  /* Array indexes of selected tiles for display purposes */
   const [tileSelect, setTileSelect] = React.useState(new Array(tiles.length).fill(false))
+  /* Array of tile_id's of selected tiles */
+  const [selectedTiles, setSelectedTiles] = React.useState(new Array())
 
-  const handleTileSelection = (position) => {
+  const handleTileSelection = (position, value) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)
     setTileSelect(updatedTileSelection)
-    console.log(tileSelect)
+
+    if (selectedTiles.find((tile_id => tile_id === value))) {
+      const newSelection = selectedTiles.filter(tile_id => tile_id !== value)
+      setSelectedTiles(newSelection)
+    } else {
+      setSelectedTiles(selectedTiles.concat(value))
+    }
   }
 
   const currentYear = new Date().getUTCFullYear()
@@ -33,8 +42,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} handleTileSelection={handleTileSelection} tiles={tiles} />} />
-          <Route path="/challenge/scrambled" element={<Challenge tileSelect={tileSelect} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
+          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
+          <Route path="/challenge/scrambled" element={<Challenge tileSelect={tileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
           <Route path="/hands" element={<Hands />} />
         </Routes>
 

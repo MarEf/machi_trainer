@@ -11,7 +11,7 @@ const Tile = ({ tile_id, tile, challenge, value, onChange }) => {
         <div className={`tile ${selected}`}>
             <label>
                 {challenge &&
-                    <input type="checkbox" id={tile_id} onChange={onChange} checked={value} />
+                    <input type="checkbox" id={tile_id} value={tile_id} onChange={onChange} checked={value} />
                 }
                 {tile}
             </label>
