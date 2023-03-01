@@ -20,6 +20,8 @@ const Challenge = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode
 
                 if (mode === "scrambled") {
                     hand = hand.sort(() => Math.random() - 0.5)
+                } else {
+                    hand = hand.sort()
                 }
 
                 setCurrentHand(hand)

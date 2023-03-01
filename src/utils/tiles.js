@@ -1,30 +1,32 @@
+/* Tileset for Machi Trainer. Honor tiles are marked with x and z at the start of their tile_id for sorting purposes */
+
 const tiles = [
     {
-        tile_id: "CHUN",
+        tile_id: "xCHUN",
         tile: "🀄︎"
     },
     {
-        tile_id: "HAKU",
+        tile_id: "xHAKU",
         tile: "🀆"
     },
     {
-        tile_id: "HATSU",
+        tile_id: "xHATSU",
         tile: "🀅"
     },
     {
-        tile_id: "E",
+        tile_id: "zE",
         tile: "🀀"
     },
     {
-        tile_id: "S",
+        tile_id: "zS",
         tile: "🀁"
     },
     {
-        tile_id: "W",
+        tile_id: "zW",
         tile: "🀂"
     },
     {
-        tile_id: "N",
+        tile_id: "zN",
         tile: "🀃"
     },
     {
