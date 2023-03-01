@@ -4,8 +4,9 @@ import './Challenge.css'
 import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useEffect } from 'react'
+import Hand from './Hand'
 
-const Challenge = ({ tileSelect, handleTileSelection, tiles }) => {
+const Challenge = ({ tileSelect, handleTileSelection, tiles, mode }) => {
     const [currentHand, setCurrentHand] = React.useState(new Array());
     const [currentWait, setCurrentWait] = React.useState(new Array());
 
@@ -14,8 +15,12 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles }) => {
         axios
             .get("http://localhost:3001/hands/1")
             .then(response => {
-                const hand = response.data.hand
+                let hand = response.data.hand
                 const wait = response.data.wait
+
+                if (mode === "scrambled") {
+                    hand = hand.sort(() => Math.random() - 0.5)
+                }
 
                 setCurrentHand(hand)
                 setCurrentWait(wait)
@@ -26,27 +31,18 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles }) => {
     }, [])
 
     const handleSubmit = () => {
+        console.log(currentWait)
         console.log("Challenge submitted")
     }
 
 
     return (
         <div>
-            <div className='hand'>
+            <div className='handView'>
                 <h2>Select all tiles that reduce shanten or complete the hand</h2>
-                {console.log(currentHand)}
-                {console.log(currentWait)}
-                {
-                    currentHand.map((id, index) => {
-                        const tile = tiles.find(({ tile_id }) => tile_id === id)
 
-                        return (
-                            <span key={index}>
-                                <Tile tile_id={id} tile={tile.tile} challenge={false} />
-                            </span>
-                        )
-                    }, 0)
-                }
+                <Hand hand={currentHand} tiles={tiles} />
+
             </div>
 
             <button className='submit-challenge' onClick={handleSubmit}>Submit</button>
@@ -70,7 +66,8 @@ const Challenge = ({ tileSelect, handleTileSelection, tiles }) => {
 Challenge.propTypes = {
     tileSelect: PropTypes.array.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
-    tiles: PropTypes.array.isRequired
+    tiles: PropTypes.array.isRequired,
+    mode: PropTypes.string
 }
 
 export default Challenge

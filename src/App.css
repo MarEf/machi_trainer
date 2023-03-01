@@ -52,3 +52,13 @@
   background-color: var(--footer-color);
   box-shadow: 0 -1px 5px var(--footer-shadow);
 }
+
+.welcome {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bold {
+  font-weight: bold;
+}

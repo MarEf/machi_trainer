@@ -1,8 +1,17 @@
 const Home = () => {
     return (
-        <div>
+        <div className="welcome">
             <h2>Welcome to Machi Trainer!</h2>
-            <div>Complete simple challenges to train up your memory on mahjong waits!</div>
+            <p>Complete challenges to train up your memory on mahjong waits!
+                Each challenge will present you with an incomplete mahjong hand and to clear the challenge,
+                you must select all possible tiles that reduce shanten, that is, bring the hand closer to completion.
+                This trainer is not about optimizing points. Just winning without furiten.
+            </p>
+            <p>The challenge has two modes. In <span className="bold">simple mode</span>, the hands presented are sorted by some logic.
+                In <span className="bold">scrambled mode</span>, the tiles in the hands are scrambled and it will be harder to know what
+                you&apos;re waiting for, but not sorting your hand has an added benefit of being harder for other players to predict.
+            </p>
+            <p>Now, without further ado, please choose your challenge mode and get problem solving!</p>
         </div>
     )
 }
