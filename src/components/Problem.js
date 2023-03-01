@@ -15,7 +15,6 @@ const Problem = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode }
             .get("http://localhost:3001/hands/")
             .then(response => {
                 const hand_id = Math.floor(Math.random() * response.data.length + 1)
-                /* Why is this always 1? */
                 console.log(hand_id)
 
                 axios.get(`http://localhost:3001/hands/${hand_id}`)
