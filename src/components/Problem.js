@@ -6,31 +6,46 @@ import axios from 'axios'
 import { useEffect } from 'react'
 import Hand from './Hand'
 
-const Problem = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode }) => {
+const Problem = ({
+    tileSelect,
+    setTileSelect,
+    selectedTiles,
+    handleTileSelection,
+    challengesLeft,
+    setChallengesLeft,
+    totalWaitTiles,
+    setTotalWaitTiles,
+    tilesCorrect,
+    setTilesCorrect,
+    tilesIncorrect,
+    setTilesIncorrect,
+    tiles,
+    mode }) => {
+
+    const [hands, setHands] = React.useState(new Array());
     const [currentHand, setCurrentHand] = React.useState(new Array());
     const [currentWait, setCurrentWait] = React.useState(new Array());
+    const [displayWait, setDisplayWait] = React.useState(new Array());
+    const [solved, setSolved] = React.useState(false)
+
+    const scrambleHand = (hand) => {
+        if (mode === "scrambled") {
+            return (hand.sort(() => Math.random() - 0.5))
+        } else {
+            return (hand.sort())
+        }
+    }
 
     useEffect(() => {
         axios
             .get("http://localhost:3001/hands/")
             .then(response => {
-                const hand_id = Math.floor(Math.random() * response.data.length + 1)
-                console.log(hand_id)
+                const handId = Math.floor(Math.random() * response.data.length)
+                const newHands = response.data
+                setHands(newHands)
 
-                axios.get(`http://localhost:3001/hands/${hand_id}`)
-                    .then(response => {
-                        let hand = response.data.hand
-                        const wait = response.data.wait
-
-                        if (mode === "scrambled") {
-                            hand = hand.sort(() => Math.random() - 0.5)
-                        } else {
-                            hand = hand.sort()
-                        }
-
-                        setCurrentHand(hand)
-                        setCurrentWait(wait)
-                    })
+                setCurrentHand(scrambleHand(newHands[handId].hand))
+                setCurrentWait(newHands[handId].wait)
             })
     }, [])
 
@@ -39,25 +54,68 @@ const Problem = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode }
         const wait = [...currentWait].sort()
         const selection = [...selectedTiles].sort()
 
-        /* Compare selection to expected wait */
+        /* Variables for score calculation */
+        const totalTiles = totalWaitTiles + wait.length
+        let totalCorrect = tilesCorrect
+        let totalIncorrect = tilesIncorrect
+
+        /* Compare selection to expected wait and calculate the score */
         if (JSON.stringify(wait) === JSON.stringify(selection)) {
-            console.log("Correct!")
+            totalCorrect += wait.lenght
         } else {
-            console.log("Wrong!")
+            selection.forEach(tile => {
+                wait.includes(tile) ? totalCorrect += 1 : totalIncorrect += 1
+            });
         }
+
+        setTotalWaitTiles(totalTiles)
+        setTilesCorrect(totalCorrect)
+        setTilesIncorrect(totalIncorrect)
+
+        /* Set display for previous wait, whether the guess was correct or not */
+        setDisplayWait(wait)
+
+        /* Set problem as solved (you only get one try per run!) */
+        setSolved(true)
     }
 
+    const handleNext = () => {
+        /* Set new hands, so that the challenge can continue */
+        const newHandId = Math.floor(Math.random() * hands.length)
+
+        /* Decrement challenge counter */
+        setChallengesLeft(challengesLeft - 1)
+        setSolved(false)
+
+        console.log(challengesLeft)
+
+        setCurrentHand(scrambleHand(hands[newHandId].hand))
+        setCurrentWait(hands[newHandId].wait)
+
+        /* Reset previous wait and player selection */
+        setDisplayWait(new Array())
+        setTileSelect(new Array(tiles.length).fill(false))
+    }
 
     return (
         <div>
             <div className='handView'>
+                {displayWait.length > 0 && <div>
+                    <h2>Wait tiles for previous hand:</h2>
+                    <Hand hand={displayWait} tiles={tiles} />
+                </div>
+                }
+
                 <h2>Select all tiles that reduce shanten or complete the hand</h2>
 
                 <Hand hand={currentHand} tiles={tiles} />
 
             </div>
 
-            <button className='submit-challenge' onClick={handleSubmit}>Submit</button>
+            {!solved
+                ? <button className='submit-challenge' onClick={handleSubmit}>Submit</button>
+                : <button className='next-challenge' onClick={handleNext}>Continue</button>
+            }
 
             <div className='tiles'>
                 {
@@ -77,8 +135,17 @@ const Problem = ({ tileSelect, selectedTiles, handleTileSelection, tiles, mode }
 
 Problem.propTypes = {
     tileSelect: PropTypes.array.isRequired,
+    setTileSelect: PropTypes.func.isRequired,
     selectedTiles: PropTypes.array.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
+    challengesLeft: PropTypes.number,
+    setChallengesLeft: PropTypes.func,
+    totalWaitTiles: PropTypes.number,
+    setTotalWaitTiles: PropTypes.func,
+    tilesCorrect: PropTypes.number,
+    setTilesCorrect: PropTypes.func,
+    tilesIncorrect: PropTypes.number,
+    setTilesIncorrect: PropTypes.func,
     tiles: PropTypes.array.isRequired,
     mode: PropTypes.string
 }

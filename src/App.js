@@ -42,8 +42,8 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
-          <Route path="/challenge/scrambled" element={<Challenge tileSelect={tileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
+          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
+          <Route path="/challenge/scrambled" element={<Challenge tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
           <Route path="/hands" element={<Hands />} />
         </Routes>
 
