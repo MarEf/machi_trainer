@@ -16,6 +16,8 @@ function App() {
   const [tileSelect, setTileSelect] = React.useState(new Array(tiles.length).fill(false))
   /* Array of tile_id's of selected tiles */
   const [selectedTiles, setSelectedTiles] = React.useState(new Array())
+  /* Array for loading the hands stored in the database */
+  const [hands, setHands] = React.useState(new Array());
 
   const handleTileSelection = (position, value) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)
@@ -42,9 +44,9 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/challenge" element={<Challenge tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
-          <Route path="/challenge/scrambled" element={<Challenge tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
-          <Route path="/hands" element={<Hands />} />
+          <Route path="/challenge" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
+          <Route path="/challenge/scrambled" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
+          <Route path="/hands" element={<Hands hands={hands} setHands={setHands} tiles={tiles} tileSelect={tileSelect} handleTileSelection={handleTileSelection} selectedTiles={selectedTiles} />} />
         </Routes>
 
         <div className='footer'>

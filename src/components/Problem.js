@@ -7,6 +7,8 @@ import { useEffect } from 'react'
 import Hand from './Hand'
 
 const Problem = ({
+    hands,
+    setHands,
     tileSelect,
     setTileSelect,
     selectedTiles,
@@ -22,7 +24,6 @@ const Problem = ({
     tiles,
     mode }) => {
 
-    const [hands, setHands] = React.useState(new Array());
     const [currentHand, setCurrentHand] = React.useState(new Array());
     const [currentWait, setCurrentWait] = React.useState(new Array());
     const [displayWait, setDisplayWait] = React.useState(new Array());
@@ -63,19 +64,16 @@ const Problem = ({
 
         /* Compare selection to expected wait and calculate the score */
         if (JSON.stringify(wait) === JSON.stringify(selection)) {
-            totalCorrect += wait.lenght
+            totalCorrect += wait.length
         } else {
             selection.forEach(tile => {
                 if (wait.includes(tile)) {
                     totalCorrect += 1
-                } else {
+                } else if (!wait.includes(tile)) {
                     totalIncorrect += 1
                 }
             });
         }
-
-        console.log(`Total correct: ${totalCorrect}`)
-        console.log(`Total incorrect: ${totalIncorrect}`)
 
         setTotalWaitTiles(totalTiles)
         setTilesCorrect(totalCorrect)
@@ -96,6 +94,9 @@ const Problem = ({
         setChallengesLeft(challengesLeft - 1)
         setSolved(false)
 
+        console.log(totalWaitTiles)
+        console.log(tilesCorrect)
+        console.log(tilesIncorrect)
 
         setCurrentHand(scrambleHand(hands[newHandId].hand))
         setCurrentWait(hands[newHandId].wait)
@@ -121,8 +122,8 @@ const Problem = ({
             </div>
 
             {!solved
-                ? <button className='submit-challenge' onClick={handleSubmit}>Submit</button>
-                : <button className='next-challenge' onClick={handleNext}>Continue</button>
+                ? <button className='submit-challenge' onClick={() => handleSubmit()}>Submit</button>
+                : <button className='next-challenge' onClick={() => handleNext()}>Continue</button>
             }
 
             <div className='tiles'>
@@ -142,6 +143,8 @@ const Problem = ({
 }
 
 Problem.propTypes = {
+    hands: PropTypes.array.isRequired,
+    setHands: PropTypes.func.isRequired,
     tileSelect: PropTypes.array.isRequired,
     setTileSelect: PropTypes.func.isRequired,
     selectedTiles: PropTypes.array.isRequired,

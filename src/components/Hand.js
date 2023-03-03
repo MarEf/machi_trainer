@@ -1,7 +1,13 @@
 import Tile from "./Tile"
 import PropTypes from 'prop-types'
 
-const Hand = ({ hand, tiles }) => {
+const Hand = ({ hand, tiles, editable = false, newHand, setNewHand }) => {
+
+    const removeTile = (tile) => {
+        const editedHand = newHand.filter(handTile => handTile !== tile)
+        setNewHand(editedHand)
+    }
+
     return (
         <div className="hand">
             {
@@ -9,9 +15,14 @@ const Hand = ({ hand, tiles }) => {
                     const tile = tiles.find(({ tile_id }) => tile_id === id)
 
                     return (
-                        <span key={index}>
-                            <Tile tile_id={id} tile={tile.tile} challenge={false} />
-                        </span>
+                        !editable
+                            ? <span key={index}>
+                                <Tile tile_id={id} tile={tile.tile} challenge={false} />
+                            </span>
+                            : <button key={index} onClick={() => removeTile(tile.tile_id)}>
+                                <Tile tile_id={id} tile={tile.tile} challenge={false} />
+                            </button>
+
                     )
                 }, 0)
             }
@@ -21,7 +32,10 @@ const Hand = ({ hand, tiles }) => {
 
 Hand.propTypes = {
     hand: PropTypes.array.isRequired,
-    tiles: PropTypes.array.isRequired
+    tiles: PropTypes.array.isRequired,
+    editable: PropTypes.bool,
+    newHand: PropTypes.array,
+    setNewHand: PropTypes.func
 }
 
 export default Hand

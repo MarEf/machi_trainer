@@ -1,0 +1,19 @@
+.add-tiles button,
+.hand button {
+    width: fit-content;
+    height: fit-content;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+}
+
+.add-tiles button:hover,
+.hand button:hover {
+    font-weight: bold;
+}
+
+.add-tiles button:active,
+.hand button:active {
+    font-weight: normal;
+}

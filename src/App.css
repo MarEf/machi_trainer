@@ -42,6 +42,11 @@
   text-decoration: none;
 }
 
+.add-new-hand {
+  display: flex;
+  flex-direction: row;
+}
+
 .link-active {
   background-color: var(--tile-selected);
 }
