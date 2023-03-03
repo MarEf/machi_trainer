@@ -17,3 +17,13 @@
 .hand button:active {
     font-weight: normal;
 }
+
+.add-new-hand {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.new-hand {
+    max-width: 50vw;
+}
