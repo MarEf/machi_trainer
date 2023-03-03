@@ -1,10 +1,18 @@
 import PropTypes from 'prop-types'
 
-const Result = ({ tilesCorrect, tilesIncorrect, totalTiles, setChallengesLeft, setTotalWaitTiles, setTilesCorrect, setTilesIncorrect }) => {
+const Result = ({
+    tilesCorrect,
+    tilesIncorrect,
+    totalTiles,
+    setChallengesLeft,
+    setTotalWaitTiles,
+    setTilesCorrect,
+    setTilesIncorrect }) => {
 
 
+    /* Reset the trainer for a new round */
     const handleReset = () => {
-        setChallengesLeft(2)
+        setChallengesLeft(5)
         setTotalWaitTiles(0)
         setTilesCorrect(0)
         setTilesIncorrect(0)

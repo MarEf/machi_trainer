@@ -6,7 +6,7 @@ import Result from './Result'
 
 
 const Challenge = ({ tileSelect, setTileSelect, selectedTiles, handleTileSelection, tiles, mode }) => {
-    const [challengesLeft, setChallengesLeft] = useState(2)
+    const [challengesLeft, setChallengesLeft] = useState(5)
     const [totalWaitTiles, setTotalWaitTiles] = useState(0)
     const [tilesCorrect, setTilesCorrect] = useState(0)
     const [tilesIncorrect, setTilesIncorrect] = useState(0)

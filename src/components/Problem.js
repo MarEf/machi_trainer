@@ -59,14 +59,23 @@ const Problem = ({
         let totalCorrect = tilesCorrect
         let totalIncorrect = tilesIncorrect
 
+        console.log(`Total tiles: ${totalTiles}`)
+
         /* Compare selection to expected wait and calculate the score */
         if (JSON.stringify(wait) === JSON.stringify(selection)) {
             totalCorrect += wait.lenght
         } else {
             selection.forEach(tile => {
-                wait.includes(tile) ? totalCorrect += 1 : totalIncorrect += 1
+                if (wait.includes(tile)) {
+                    totalCorrect += 1
+                } else {
+                    totalIncorrect += 1
+                }
             });
         }
+
+        console.log(`Total correct: ${totalCorrect}`)
+        console.log(`Total incorrect: ${totalIncorrect}`)
 
         setTotalWaitTiles(totalTiles)
         setTilesCorrect(totalCorrect)
@@ -87,7 +96,6 @@ const Problem = ({
         setChallengesLeft(challengesLeft - 1)
         setSolved(false)
 
-        console.log(challengesLeft)
 
         setCurrentHand(scrambleHand(hands[newHandId].hand))
         setCurrentWait(hands[newHandId].wait)
