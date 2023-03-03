@@ -5,7 +5,7 @@ import Hand from "./Hand"
 import Tile from "./Tile"
 import "./Hands.css"
 
-const Hands = ({ hands, setHands, tiles, tileSelect, handleTileSelection, selectedTiles }) => {
+const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSelection, selectedTiles }) => {
     const [newHand, setNewHand] = useState(new Array())
 
     useEffect(() => {
@@ -30,7 +30,10 @@ const Hands = ({ hands, setHands, tiles, tileSelect, handleTileSelection, select
                 axios
                     .get("http://localhost:3001/hands/")
                     .then(response => {
-                        setHands(response.data)
+                        /* Reset old values for the next hand addition */
+                        setHands(response.data);
+                        setNewHand(new Array());
+                        setTileSelect(new Array(tiles.length).fill(false));
                     })
             )
     }
@@ -92,6 +95,7 @@ Hands.propTypes = {
     setHands: PropTypes.func.isRequired,
     tiles: PropTypes.array.isRequired,
     tileSelect: PropTypes.array.isRequired,
+    setTileSelect: PropTypes.func.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
     selectedTiles: PropTypes.array.isRequired
 }
