@@ -21,7 +21,7 @@ const Result = ({
     return (
         <div>
             <h3>You got {tilesCorrect} wait tiles correct out of {totalTiles}</h3>
-            {tilesIncorrect !== 0
+            {(tilesIncorrect !== 0) || (tilesCorrect !== totalTiles)
                 ? <p>You also got {tilesIncorrect} {tilesIncorrect === 1 ? 'tile' : 'tiles'} incorrect.</p>
                 : <p>Congratulations! You got a perfect score with no errors!</p>
             }

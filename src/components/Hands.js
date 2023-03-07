@@ -6,7 +6,7 @@ import Tile from "./Tile"
 import "./Hands.css"
 // import { response } from "express"
 
-const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSelection, selectedTiles }) => {
+const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSelection, selectedTiles, setSelectedTiles }) => {
     const [newHand, setNewHand] = useState(new Array())
 
     useEffect(() => {
@@ -37,6 +37,7 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
                 setHands(hands.concat(addedHand));
                 setNewHand(new Array());
                 setTileSelect(new Array(tiles.length).fill(false));
+                setSelectedTiles(new Array())
             })
     }
 
@@ -100,7 +101,8 @@ Hands.propTypes = {
     tileSelect: PropTypes.array.isRequired,
     setTileSelect: PropTypes.func.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
-    selectedTiles: PropTypes.array.isRequired
+    selectedTiles: PropTypes.array.isRequired,
+    setSelectedTiles: PropTypes.func.isRequired
 }
 
 export default Hands

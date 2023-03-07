@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Result from './Result'
 
 
-const Challenge = ({ hands, setHands, tileSelect, setTileSelect, selectedTiles, handleTileSelection, tiles, mode }) => {
+const Challenge = ({ hands, setHands, tileSelect, setTileSelect, selectedTiles, setSelectedTiles, handleTileSelection, tiles, mode }) => {
     const [challengesLeft, setChallengesLeft] = useState(5)
     const [totalWaitTiles, setTotalWaitTiles] = useState(0)
     const [tilesCorrect, setTilesCorrect] = useState(0)
@@ -20,6 +20,7 @@ const Challenge = ({ hands, setHands, tileSelect, setTileSelect, selectedTiles, 
                     tileSelect={tileSelect}
                     setTileSelect={setTileSelect}
                     selectedTiles={selectedTiles}
+                    setSelectedTiles={setSelectedTiles}
                     handleTileSelection={handleTileSelection}
                     challengesLeft={challengesLeft}
                     setChallengesLeft={setChallengesLeft}
@@ -51,6 +52,7 @@ Challenge.propTypes = {
     setHands: PropTypes.func.isRequired,
     tileSelect: PropTypes.array.isRequired,
     setTileSelect: PropTypes.func.isRequired,
+    setSelectedTiles: PropTypes.func.isRequired,
     selectedTiles: PropTypes.array.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
     tiles: PropTypes.array.isRequired,

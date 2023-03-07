@@ -12,6 +12,7 @@ const Problem = ({
     tileSelect,
     setTileSelect,
     selectedTiles,
+    setSelectedTiles,
     handleTileSelection,
     challengesLeft,
     setChallengesLeft,
@@ -39,14 +40,14 @@ const Problem = ({
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/hands/")
+            .get("http://localhost:3001/api/hands/")
             .then(response => {
                 const handId = Math.floor(Math.random() * response.data.length)
                 const newHands = response.data
                 setHands(newHands)
 
-                setCurrentHand(scrambleHand(newHands[handId].hand))
-                setCurrentWait(newHands[handId].wait)
+                setCurrentHand(scrambleHand(JSON.parse(newHands[handId].hand)))
+                setCurrentWait(JSON.parse(newHands[handId].wait))
             })
     }, [])
 
@@ -94,16 +95,13 @@ const Problem = ({
         setChallengesLeft(challengesLeft - 1)
         setSolved(false)
 
-        console.log(totalWaitTiles)
-        console.log(tilesCorrect)
-        console.log(tilesIncorrect)
-
-        setCurrentHand(scrambleHand(hands[newHandId].hand))
-        setCurrentWait(hands[newHandId].wait)
+        setCurrentHand(scrambleHand(JSON.parse(hands[newHandId].hand)))
+        setCurrentWait(JSON.parse(hands[newHandId].wait))
 
         /* Reset previous wait and player selection */
         setDisplayWait(new Array())
         setTileSelect(new Array(tiles.length).fill(false))
+        setSelectedTiles(new Array())
     }
 
     return (
@@ -148,6 +146,7 @@ Problem.propTypes = {
     tileSelect: PropTypes.array.isRequired,
     setTileSelect: PropTypes.func.isRequired,
     selectedTiles: PropTypes.array.isRequired,
+    setSelectedTiles: PropTypes.func.isRequired,
     handleTileSelection: PropTypes.func.isRequired,
     challengesLeft: PropTypes.number,
     setChallengesLeft: PropTypes.func,
