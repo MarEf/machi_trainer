@@ -10,7 +10,7 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/hands/")
+            .get("http://localhost:3001/api/hands/")
             .then(response => {
                 setHands(response.data)
             })
