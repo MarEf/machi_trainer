@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import Hand from "./Hand"
 import Tile from "./Tile"
 import "./Hands.css"
+// import { response } from "express"
 
 const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSelection, selectedTiles }) => {
     const [newHand, setNewHand] = useState(new Array())
@@ -27,16 +28,16 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
             .post("http://localhost:3001/api/hands", {
                 hand: newHand,
                 wait: selectedTiles
-            }).then(
-                axios
-                    .get("http://localhost:3001/api/hands/")
-                    .then(response => {
-                        /* Reset old values for the next hand addition */
-                        setHands(response.data);
-                        setNewHand(new Array());
-                        setTileSelect(new Array(tiles.length).fill(false));
-                    })
-            )
+            }).then(response => {
+                const addedHand = {
+                    id: response.data.insertId,
+                    hand: JSON.stringify(newHand),
+                    wait: JSON.stringify(selectedTiles)
+                }
+                setHands(hands.concat(addedHand));
+                setNewHand(new Array());
+                setTileSelect(new Array(tiles.length).fill(false));
+            })
     }
 
     return (
