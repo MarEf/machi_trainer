@@ -1,11 +1,14 @@
-import { createConnection } from 'mysql2'
+/*eslint-env node*/
+
+const mysql = require('mysql2')
 
 //TEST DB, REFACTOR FOR PROD!
-const db = createConnection({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: "",
     database: 'mahjong'
 })
 
-export default db
+
+module.exports = db

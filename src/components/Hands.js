@@ -12,7 +12,8 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
         axios
             .get("http://localhost:3001/api/hands/")
             .then(response => {
-                setHands(response.data)
+                let hands = response.data
+                setHands(hands)
             })
     }, [])
 
@@ -23,12 +24,12 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
 
     const addNewHand = () => {
         axios
-            .post("http://localhost:3001/hands", {
+            .post("http://localhost:3001/api/hands", {
                 hand: newHand,
                 wait: selectedTiles
             }).then(
                 axios
-                    .get("http://localhost:3001/hands/")
+                    .get("http://localhost:3001/api/hands/")
                     .then(response => {
                         /* Reset old values for the next hand addition */
                         setHands(response.data);
@@ -40,15 +41,16 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
 
     return (
         <div className="add-new-hand">
+            {console.log(hands)}
             <div className="all-hands">
                 <h2>All hands</h2>
                 {
                     hands.map(hand => (
                         <div key={hand.id}>
                             <h3>Hand {hand.id}:</h3>
-                            <Hand hand={hand.hand} tiles={tiles} />
+                            <Hand hand={JSON.parse(hand.hand)} tiles={tiles} />
                             <h3>Wait for hand {hand.id}:</h3>
-                            <Hand hand={hand.wait} tiles={tiles} />
+                            <Hand hand={JSON.parse(hand.wait)} tiles={tiles} />
                         </div>
                     ))
                 }
