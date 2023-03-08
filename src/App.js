@@ -9,6 +9,7 @@ import tiles from './utils/tiles'
 import Challenge from './components/Challenge';
 import Hands from './components/Hands';
 import Home from './components/Home';
+import Register from './components/Register';
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
           <NavLink to="/" className={({ isActive }) => (isActive ? "link-active" : "link")}>Home</NavLink>
           <NavLink to="/challenge" className={({ isActive }) => (isActive ? "link-active" : "link")}>Challenge</NavLink>
           <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
+          <NavLink to="/register" className={({ isActive }) => (isActive ? "link-active" : "link")}>Create Account</NavLink>
         </div>
 
         <Routes>
@@ -47,6 +49,7 @@ function App() {
           <Route path="/challenge" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
           <Route path="/challenge/scrambled" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
           <Route path="/hands" element={<Hands hands={hands} setHands={setHands} tiles={tiles} tileSelect={tileSelect} setTileSelect={setTileSelect} handleTileSelection={handleTileSelection} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
 
         <div className='footer'>
