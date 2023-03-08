@@ -4,6 +4,8 @@ const express = require('express')
 const db = require('./config/db.js')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+// const auth = require('./auth')
 
 const app = express()
 const PORT = 3001
@@ -87,6 +89,55 @@ app.post('/api/users/register', (req, res) => {
                 err
             })
         })
+})
+
+// Login
+app.post("/api/users/login", (req, res) => {
+    // Set parameters as constants for legibility
+    // login = username or password
+    const login = req.body.login
+    const password = req.body.password
+
+    // Try finding the user with either username or password
+    // All error messages are identical for security purposes
+    db.query("SELECT * FROM users WHERE username=? OR email=?", [login, login], (err, result) => {
+        if (err) {
+            res.status(400).send({
+                message: "Login credentials were incorrect. Check the email and password and try again later."
+            })
+        } else {
+            // If user is found, compare password given against the user's password hash.
+            bcrypt.compare(password, result[0].password)
+                .then((passwordCheck) => {
+                    if (!passwordCheck) {
+                        return res.status(400).send({
+                            message: "Login credentials were incorrect. Check the email and password and try again later."
+                        })
+                    } else {
+                        // Create jwt token
+                        const token = jwt.sign(
+                            {
+                                userId: result[0].id,
+                                userEmail: result[0].email
+                            }, "RANDOM-TOKEN",
+                            { expiresIn: "24h" }
+                        )
+
+                        // Send response about a successful login and let frontend handle the rest
+                        res.status(200).send({
+                            message: `Logged in successfully! Welcome ${result[0].username}!`,
+                            username: result[0].username,
+                            token
+                        })
+                    }
+                })
+                .catch(() => {
+                    res.status(400).send({
+                        message: "Login credentials were incorrect. Check the email and password and try again later."
+                    })
+                })
+        }
+    })
 })
 
 
