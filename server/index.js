@@ -5,7 +5,7 @@ const db = require('./config/db.js')
 const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-// const auth = require('./auth')
+const auth = require('./auth')
 
 const app = express()
 const PORT = 3001
@@ -31,7 +31,7 @@ app.get('/api/hands', (req, res) => {
 })
 
 // Add new hand
-app.post('/api/hands', (req, res) => {
+app.post('/api/hands', auth, (req, res) => {
     const hand = JSON.stringify(req.body.hand)
     const wait = JSON.stringify(req.body.wait)
 

@@ -4,14 +4,20 @@ import PropTypes from 'prop-types'
 import Hand from "./Hand"
 import Tile from "./Tile"
 import "./Hands.css"
-// import { response } from "express"
+import Cookies from "universal-cookie"
+const cookies = new Cookies()
+const token = cookies.get("TOKEN")
 
 const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSelection, selectedTiles, setSelectedTiles }) => {
     const [newHand, setNewHand] = useState(new Array())
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/api/hands/")
+            .get("http://localhost:3001/api/hands/", {
+                headers: {
+                    Authorization: token
+                }
+            })
             .then(response => {
                 let hands = response.data
                 setHands(hands)
@@ -27,7 +33,10 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
         axios
             .post("http://localhost:3001/api/hands", {
                 hand: newHand,
-                wait: selectedTiles
+                wait: selectedTiles,
+                headers: {
+                    Authorization: token
+                }
             }).then(response => {
                 const addedHand = {
                     id: response.data.insertId,
@@ -43,7 +52,6 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
 
     return (
         <div className="add-new-hand">
-            {console.log(hands)}
             <div className="all-hands">
                 <h2>All hands</h2>
                 {
@@ -57,39 +65,40 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
                     ))
                 }
             </div>
-
-            <div className="new-hand">
-                <h2>Add new hand</h2>
-                <div className="hand-preview">
-                    <Hand hand={newHand} tiles={tiles} editable={true} newHand={newHand} setNewHand={setNewHand} />
-                </div>
-                <div className="add-tiles">
-                    {
-                        tiles.map(tile => (
-                            <button key={tile.tile_id} onClick={() => addTileToHand(tile.tile_id)}>
-                                <Tile tile_id={tile.tile_id} tile={tile.tile} challenge={false} />
-                            </button>
-                        ))
-                    }
-                </div>
-                <div className="select-wait">
-                    <h3>Select wait for the new hand</h3>
-                    <div>
+            {token &&
+                <div className="new-hand">
+                    <h2>Add new hand</h2>
+                    <div className="hand-preview">
+                        <Hand hand={newHand} tiles={tiles} editable={true} newHand={newHand} setNewHand={setNewHand} />
+                    </div>
+                    <div className="add-tiles">
                         {
-                            tiles.map(({ tile_id, tile }, index) => {
-                                return (
-                                    <span key={index}>
-                                        <Tile tile_id={tile_id} tile={tile} challenge={true} value={tileSelect[index]} onChange={() => handleTileSelection(index, tile_id)} />
-                                    </span>
-                                )
-                            }, 0)
+                            tiles.map(tile => (
+                                <button key={tile.tile_id} onClick={() => addTileToHand(tile.tile_id)}>
+                                    <Tile tile_id={tile.tile_id} tile={tile.tile} challenge={false} />
+                                </button>
+                            ))
                         }
                     </div>
-                    <div>
-                        <button onClick={() => addNewHand()}>Add New Hand to the Database</button>
+                    <div className="select-wait">
+                        <h3>Select wait for the new hand</h3>
+                        <div>
+                            {
+                                tiles.map(({ tile_id, tile }, index) => {
+                                    return (
+                                        <span key={index}>
+                                            <Tile tile_id={tile_id} tile={tile} challenge={true} value={tileSelect[index]} onChange={() => handleTileSelection(index, tile_id)} />
+                                        </span>
+                                    )
+                                }, 0)
+                            }
+                        </div>
+                        <div>
+                            <button onClick={() => addNewHand()}>Add New Hand to the Database</button>
+                        </div>
                     </div>
-                </div>
-            </div >
+                </div >
+            }
         </div >
     )
 }

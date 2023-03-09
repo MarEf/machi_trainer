@@ -1,13 +1,15 @@
 import axios from 'axios'
 import { useState } from 'react'
+import PropTypes from 'prop-types'
+import Cookies from 'universal-cookie'
 
-const Login = () => {
-    const [login, setLogin] = useState("")
+const Login = ({ login, setLogin }) => {
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-
+    const cookies = new Cookies()
 
     const handleLoginChange = (event) => {
-        setLogin(event.target.value)
+        setUsername(event.target.value)
     }
 
     const handlePasswordChange = (event) => {
@@ -20,7 +22,9 @@ const Login = () => {
             login: login,
             password: password
         }).then(function (response) {
-            console.log(response)
+            setLogin(true)
+            cookies.set("TOKEN", response.data.token, { path: "/", maxAge: 86400 })
+            window.location.href = "/home"
         }).catch(function (error) {
             console.log(error)
         })
@@ -29,7 +33,7 @@ const Login = () => {
     return (
         <div className='form'>
             <label htmlFor='login-name'>Username or email</label>
-            <input type='text' name='login-name' value={login} onChange={handleLoginChange} />
+            <input type='text' name='login-name' value={username} onChange={handleLoginChange} />
 
             <label htmlFor='password'>Password</label>
             <input type='password' name='password' value={password} onChange={handlePasswordChange} />
@@ -37,6 +41,11 @@ const Login = () => {
             <button type='submit' onClick={() => submitForm()}>Log in</button>
         </div >
     )
+}
+
+Login.propTypes = {
+    login: PropTypes.bool.isRequired,
+    setLogin: PropTypes.func.isRequired
 }
 
 export default Login

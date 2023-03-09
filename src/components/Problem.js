@@ -5,6 +5,10 @@ import PropTypes from 'prop-types'
 import axios from 'axios'
 import { useEffect } from 'react'
 import Hand from './Hand'
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies()
+const token = cookies.get("TOKEN")
 
 const Problem = ({
     hands,
@@ -40,7 +44,11 @@ const Problem = ({
 
     useEffect(() => {
         axios
-            .get("http://localhost:3001/api/hands/")
+            .get("http://localhost:3001/api/hands/", {
+                headers: {
+                    Authorization: token
+                }
+            })
             .then(response => {
                 const handId = Math.floor(Math.random() * response.data.length)
                 const newHands = response.data

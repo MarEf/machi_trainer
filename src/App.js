@@ -11,6 +11,7 @@ import Hands from './components/Hands';
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
 
@@ -20,6 +21,8 @@ function App() {
   const [selectedTiles, setSelectedTiles] = React.useState(new Array())
   /* Array for loading the hands stored in the database */
   const [hands, setHands] = React.useState(new Array());
+  /* Login status of user */
+  const [login, setLogin] = React.useState(false)
 
   const handleTileSelection = (position, value) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)
@@ -43,16 +46,26 @@ function App() {
           <NavLink to="/challenge" className={({ isActive }) => (isActive ? "link-active" : "link")}>Challenge</NavLink>
           <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
           <NavLink to="/register" className={({ isActive }) => (isActive ? "link-active" : "link")}>Create Account</NavLink>
-          <NavLink to="/login" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log in</NavLink>
+
+          {
+            login
+              ? <NavLink to="/login" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log in</NavLink>
+              : <NavLink to="/logout" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log out</NavLink>
+          }
+
         </div>
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/challenge" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
           <Route path="/challenge/scrambled" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
-          <Route path="/hands" element={<Hands hands={hands} setHands={setHands} tiles={tiles} tileSelect={tileSelect} setTileSelect={setTileSelect} handleTileSelection={handleTileSelection} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} />} />
+          <Route path="/hands" element={
+            <ProtectedRoute>
+              <Hands hands={hands} setHands={setHands} tiles={tiles} tileSelect={tileSelect} setTileSelect={setTileSelect} handleTileSelection={handleTileSelection} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} />
+            </ProtectedRoute>
+          } />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/login" element={<Login login={login} setLogin={setLogin} />} />
         </Routes>
 
         <div className='footer'>
