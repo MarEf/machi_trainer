@@ -11,6 +11,7 @@ import Hands from './components/Hands';
 import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
+import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -21,7 +22,7 @@ function App() {
   const [selectedTiles, setSelectedTiles] = React.useState(new Array())
   /* Array for loading the hands stored in the database */
   const [hands, setHands] = React.useState(new Array());
-  /* Login status of user */
+  /* Login status of user. WHY DO YOU NOT UPDATE RIGHT!? */
   const [login, setLogin] = React.useState(false)
 
   const handleTileSelection = (position, value) => {
@@ -66,6 +67,7 @@ function App() {
           } />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login login={login} setLogin={setLogin} />} />
+          <Route path="/logout" element={<Logout setLogin={setLogin} />} />
         </Routes>
 
         <div className='footer'>
