@@ -1,6 +1,7 @@
 /*eslint-env node*/
 
 const jwt = require("jsonwebtoken")
+require('dotenv').config()
 
 module.exports = async (req, res, next) => {
     try {
@@ -9,7 +10,7 @@ module.exports = async (req, res, next) => {
         // Check if the token provided matches the supposed origin
         const decodedToken = await jwt.verify(
             token,
-            "RANDOM-TOKEN"
+            process.env.RANDOM_TOKEN
         )
 
         // Retrieve user details of the logged in user

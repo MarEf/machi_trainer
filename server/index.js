@@ -6,6 +6,7 @@ const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
+require('dotenv').config();
 
 const app = express()
 const PORT = 3001
@@ -119,7 +120,7 @@ app.post("/api/users/login", (req, res) => {
                             {
                                 userId: result[0].id,
                                 userEmail: result[0].email
-                            }, "RANDOM-TOKEN",
+                            }, process.env.RANDOM_TOKEN,
                             { expiresIn: "24h" }
                         )
 

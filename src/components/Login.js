@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Cookies from 'universal-cookie'
 
@@ -16,12 +16,16 @@ const Login = ({ login, setLogin }) => {
         setPassword(event.target.value)
     }
 
+    useEffect(() => {
+        console.log('login state:', login)
+    }, [login]);
 
     const submitForm = () => {
         axios.post("http://localhost:3001/api/users/login", {
-            login: login,
+            login: username,
             password: password
         }).then(function (response) {
+            // Does not work. State of 'login' does not update or the update does not chain up to App.js
             setLogin(true)
             cookies.set("TOKEN", response.data.token, { path: "/", maxAge: 86400 })
             window.location.href = "/home"
@@ -38,7 +42,7 @@ const Login = ({ login, setLogin }) => {
             <label htmlFor='password'>Password</label>
             <input type='password' name='password' value={password} onChange={handlePasswordChange} />
 
-            <button type='submit' onClick={() => submitForm()}>Log in</button>
+            <button type='submit' onClick={submitForm}>Log in</button>
         </div >
     )
 }

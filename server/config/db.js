@@ -1,13 +1,13 @@
 /*eslint-env node*/
 
 const mysql = require('mysql2')
+require('dotenv').config()
 
-//TEST DB, REFACTOR FOR PROD!
 const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: "",
-    database: 'mahjong'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB
 })
 
 

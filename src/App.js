@@ -13,6 +13,8 @@ import Register from './components/Register';
 import Login from './components/Login';
 import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies()
 
 function App() {
 
@@ -39,6 +41,12 @@ function App() {
 
   const currentYear = new Date().getUTCFullYear()
 
+  // Random BS to get 'login' state to change AND rerender... Not the safes way, but it's all client side anyway.
+  React.useEffect(() => {
+    const token = cookies.get("TOKEN")
+    token ? setLogin(true) : setLogin(false)
+  });
+
   return (
     <div className="App">
       <Router>
@@ -50,14 +58,15 @@ function App() {
 
           {
             login
-              ? <NavLink to="/login" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log in</NavLink>
-              : <NavLink to="/logout" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log out</NavLink>
+              ? <NavLink to="/logout" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log out</NavLink>
+              : <NavLink to="/login" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log in</NavLink>
           }
-
+          {console.log(login)}
         </div>
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/challenge" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} />} />
           <Route path="/challenge/scrambled" element={<Challenge hands={hands} setHands={setHands} tileSelect={tileSelect} setTileSelect={setTileSelect} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} handleTileSelection={handleTileSelection} tiles={tiles} mode={"scrambled"} />} />
           <Route path="/hands" element={
