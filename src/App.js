@@ -14,6 +14,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Cookies from 'universal-cookie';
+import User from './components/User';
 const cookies = new Cookies()
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
   const [hands, setHands] = React.useState(new Array());
   /* Login status of user. WHY DO YOU NOT UPDATE RIGHT!? */
   const [login, setLogin] = React.useState(false)
+  const [currentUser, setCurrentUser] = React.useState("0")
 
   const handleTileSelection = (position, value) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)
@@ -55,7 +57,7 @@ function App() {
           <NavLink to="/challenge" className={({ isActive }) => (isActive ? "link-active" : "link")}>Challenge</NavLink>
           <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
           <NavLink to="/register" className={({ isActive }) => (isActive ? "link-active" : "link")}>Create Account</NavLink>
-
+          <NavLink to={`/user/${currentUser}`} className={({ isActive }) => (isActive ? "link-active" : "link")}>Your page</NavLink>
           {
             login
               ? <NavLink to="/logout" className={({ isActive }) => (isActive ? "link-active" : "link")}>Log out</NavLink>
@@ -74,16 +76,21 @@ function App() {
               <Hands hands={hands} setHands={setHands} tiles={tiles} tileSelect={tileSelect} setTileSelect={setTileSelect} handleTileSelection={handleTileSelection} selectedTiles={selectedTiles} setSelectedTiles={setSelectedTiles} />
             </ProtectedRoute>
           } />
+          <Route path="/user/:id" element={
+            <ProtectedRoute>
+              <User />
+            </ProtectedRoute>
+          } />
           <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login login={login} setLogin={setLogin} />} />
+          <Route path="/login" element={<Login login={login} setLogin={setLogin} setCurrentUser={setCurrentUser} />} />
           <Route path="/logout" element={<Logout setLogin={setLogin} />} />
         </Routes>
 
         <div className='footer'>
           <i>©{currentYear}, Maria Efimova</i>
         </div>
-      </Router>
-    </div>
+      </Router >
+    </div >
   );
 }
 

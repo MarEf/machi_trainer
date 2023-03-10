@@ -128,6 +128,7 @@ app.post("/api/users/login", (req, res) => {
                         res.status(200).send({
                             message: `Logged in successfully! Welcome ${result[0].username}!`,
                             username: result[0].username,
+                            id: result[0].id,
                             token
                         })
                     }

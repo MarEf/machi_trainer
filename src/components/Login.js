@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Cookies from 'universal-cookie'
 
-const Login = ({ login, setLogin }) => {
+const Login = ({ login, setLogin, setCurrentUser }) => {
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const cookies = new Cookies()
@@ -27,6 +27,7 @@ const Login = ({ login, setLogin }) => {
         }).then(function (response) {
             // Does not work. State of 'login' does not update or the update does not chain up to App.js
             setLogin(true)
+            setCurrentUser(response.data.id)
             cookies.set("TOKEN", response.data.token, { path: "/", maxAge: 86400 })
             window.location.href = "/home"
         }).catch(function (error) {
@@ -49,7 +50,8 @@ const Login = ({ login, setLogin }) => {
 
 Login.propTypes = {
     login: PropTypes.bool.isRequired,
-    setLogin: PropTypes.func.isRequired
+    setLogin: PropTypes.func.isRequired,
+    setCurrentUser: PropTypes.func.isRequired
 }
 
 export default Login
