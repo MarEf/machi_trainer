@@ -6,6 +6,7 @@ const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
+const { response } = require('express')
 require('dotenv').config();
 
 const app = express()
@@ -48,14 +49,52 @@ app.post('/api/hands', auth, (req, res) => {
     })
 })
 
+// Get score information about a specific user
+// Not currently implemented in frontend due to React being a [REDACTED] about login hooks
+app.get("/api/score/:id", auth, (req, res) => {
+    const id = req.get.params
+    const limit = 20
+    db.query("SELECT * FROM scores WHERE user_id=? LIMIT=?", [id, limit], (err, result) => {
+        if (err) {
+            res.status(400).send({ message: "Failed to fetch score data" })
+        } else {
+            res.send(result)
+        }
+    })
+}
+)
+
+// Set score information about a specific user
+// Not currently implemented in frontend due to React being a [REDACTED] about login hooks
+app.post("api/score", auth, (req, res) => {
+    const user = response.body.user_id
+    const correct = response.body.correct
+    const wrong = response.body.wrong
+    const total = response.body.total
+    const now = Date.now()
+
+    db.query("INSERT INTO scores (user_id, correct, wrong, total, datetime) VALUES (?, ?, ?, ?, ?)", [user, correct, wrong, total, now], (err, result) => {
+        if (err) {
+            res.status(400).send({ message: "Score information could not be saved" })
+        } else {
+            res.send({
+                result: result,
+                message: "Score saved successfully"
+            })
+        }
+    })
+})
+
 /* USER MANAGEMENT FUNCTIONS */
 
 // Get one user (only username and email)
-app.get('/api/users/:id', (req, res) => {
+app.get('/api/users/:id', auth, (req, res) => {
     const id = req.params.id
     db.query = ("SELECT username, email FROM users WHERE id=?", [id], (err, result) => {
         if (err) {
-            console.log(err)
+            res.status(400).send({ message: "No user data could be fetched" })
+        } else if (result.length === 0) {
+            res.status(404).send("User not found")
         } else {
             res.send(result)
         }
