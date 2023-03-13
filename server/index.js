@@ -21,7 +21,7 @@ app.use(express.json())
 /* HAND FUNCTIONS */
 
 // Get all hands
-app.get('/api/hands', (req, res) => {
+app.get('/api/hands', auth, (req, res) => {
     db.query("SELECT * FROM hands", (err, result) => {
         if (err) {
             console.log("An unexpected error has occurred " + err)
@@ -102,8 +102,8 @@ app.post("/api/users/login", (req, res) => {
     // Try finding the user with either username or password
     // All error messages are identical for security purposes
     db.query("SELECT * FROM users WHERE username=? OR email=?", [login, login], (err, result) => {
-        if (err) {
-            res.status(400).send({
+        if (err || result.length === 0) {
+            res.status(401).send({
                 message: "Login credentials were incorrect. Check the email and password and try again later."
             })
         } else {
@@ -111,7 +111,7 @@ app.post("/api/users/login", (req, res) => {
             bcrypt.compare(password, result[0].password)
                 .then((passwordCheck) => {
                     if (!passwordCheck) {
-                        return res.status(400).send({
+                        return res.status(401).send({
                             message: "Login credentials were incorrect. Check the email and password and try again later."
                         })
                     } else {
@@ -134,7 +134,7 @@ app.post("/api/users/login", (req, res) => {
                     }
                 })
                 .catch(() => {
-                    res.status(400).send({
+                    res.status(401).send({
                         message: "Login credentials were incorrect. Check the email and password and try again later."
                     })
                 })
