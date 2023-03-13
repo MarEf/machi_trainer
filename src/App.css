@@ -34,7 +34,10 @@
 
 .hand,
 .tiles {
-  width: 700px;
+  max-width: 750px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-left: auto;
   margin-right: auto;
 }
@@ -71,6 +74,12 @@
 
 .welcome {
   width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content {
+  max-width: 90%;
   margin-left: auto;
   margin-right: auto;
 }

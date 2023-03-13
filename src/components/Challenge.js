@@ -12,7 +12,7 @@ const Challenge = ({ hands, setHands, tileSelect, setTileSelect, selectedTiles, 
     const [tilesIncorrect, setTilesIncorrect] = useState(0)
 
     return (
-        <div>
+        <div className='content'>
             {challengesLeft > 0
                 ? <Problem
                     hands={hands}

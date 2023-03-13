@@ -21,7 +21,7 @@ app.use(express.json())
 /* HAND FUNCTIONS */
 
 // Get all hands
-app.get('/api/hands', auth, (req, res) => {
+app.get('/api/hands', (req, res) => {
     db.query("SELECT * FROM hands", (err, result) => {
         if (err) {
             console.log("An unexpected error has occurred " + err)

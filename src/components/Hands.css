@@ -21,9 +21,20 @@
 .add-new-hand {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap-reverse;
     justify-content: space-around;
 }
 
 .new-hand {
-    max-width: 50vw;
+    width: 50%;
+}
+
+.hand-preview {
+    margin-bottom: 2em;
+}
+
+@media screen and (max-width: 1000px) {
+    .new-hand {
+        width: 80%;
+    }
 }

@@ -67,7 +67,8 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
     }
 
     return (
-        <div>
+        <div className="content">
+            <h3>View existing hands or add new ones! Note: There is no verification for hand/wait correctness, so please check the values before submitting!</h3>
             {alert &&
                 <div className="alert">{alert}</div>
             }
