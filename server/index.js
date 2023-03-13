@@ -40,7 +40,10 @@ app.post('/api/hands', auth, (req, res) => {
         if (err) {
             console.log(err)
         } else {
-            res.send(result)
+            res.send({
+                result: result,
+                message: "A new hand was successfully added"
+            })
         }
     })
 })

@@ -48,7 +48,7 @@ const Hands = ({ hands, setHands, tiles, tileSelect, setTileSelect, handleTileSe
                 }
             ).then(response => {
                 const addedHand = {
-                    id: response.data.insertId,
+                    id: response.data.result.insertId,
                     hand: JSON.stringify(newHand),
                     wait: JSON.stringify(selectedTiles)
                 }
