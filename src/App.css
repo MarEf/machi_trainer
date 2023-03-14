@@ -42,10 +42,15 @@
   margin-right: auto;
 }
 
+.hand {
+  min-height: 55px
+}
+
 .header {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
   margin-bottom: 2em;
   background-color: var(--header-color);
   color: var(--font-color-light);

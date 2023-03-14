@@ -25,7 +25,8 @@ const User = () => {
 
     return (
         <div>
-            <h2>Welcome, {name}</h2>
+            <h2>Welcome, {name}!</h2>
+            <p>See below how you have been doing recently. Your history shows your last 20 plays.</p>
             <div className='score'>
                 {<Score />}
             </div>

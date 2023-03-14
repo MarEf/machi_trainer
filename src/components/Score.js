@@ -28,14 +28,12 @@ const Score = () => {
                 let scores = response.data
                 let correct = new Array()
                 let wrong = new Array()
-                let total = new Array()
                 let timestamps = new Array()
 
                 // Map variables into appropreate arrays
                 scores.map(score => {
-                    correct = correct.concat(score.correct)
-                    wrong = wrong.concat(score.wrong)
-                    total = total.concat(score.total)
+                    correct = correct.concat(score.correct / score.total)
+                    wrong = wrong.concat(score.wrong / score.total)
                     timestamps = timestamps.concat(score.date)
                 })
 
@@ -44,22 +42,16 @@ const Score = () => {
                     labels: timestamps,
                     datasets: [
                         {
-                            label: "Tiles Correct",
+                            label: "Tiles Correct (normalized)",
                             data: correct,
                             borderColor: 'rgb(0, 107, 0)',
                             backgroundColor: 'rgba(0, 107, 0, 0.5)'
                         },
                         {
-                            label: "Tiles Wrong",
+                            label: "Tiles Wrong (normalized)",
                             data: wrong,
                             borderColor: 'rgb(107, 0, 0)',
                             backgroundColor: 'rgba(107, 0, 0, 0.5)'
-                        },
-                        {
-                            label: "Total Tiles",
-                            data: total,
-                            borderColor: 'rgb(0, 0, 107)',
-                            backgroundColor: 'rgba(0, 0, 107, 0.5)'
                         }
                     ]
                 }
