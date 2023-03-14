@@ -6,7 +6,6 @@ const cors = require('cors')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
-const { response } = require('express')
 require('dotenv').config();
 
 const app = express()
@@ -66,15 +65,15 @@ app.get("/api/score/:id", auth, (req, res) => {
 
 // Set score information about a specific user
 // Not currently implemented in frontend due to React being a [REDACTED] about login hooks
-app.post("api/score", auth, (req, res) => {
-    const user = response.body.user_id
-    const correct = response.body.correct
-    const wrong = response.body.wrong
-    const total = response.body.total
-    const now = Date.now()
+app.post("/api/score", auth, (req, res) => {
+    const user = req.body.user_id
+    const correct = req.body.correct
+    const wrong = req.body.wrong
+    const total = req.body.total
 
-    db.query("INSERT INTO scores (user_id, correct, wrong, total, datetime) VALUES (?, ?, ?, ?, ?)", [user, correct, wrong, total, now], (err, result) => {
+    db.query("INSERT INTO scores (user_id, correct, wrong, total) VALUES (?, ?, ?, ?)", [user, correct, wrong, total], (err, result) => {
         if (err) {
+            console.log(err)
             res.status(400).send({ message: "Score information could not be saved" })
         } else {
             res.send({
