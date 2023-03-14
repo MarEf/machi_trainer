@@ -119,8 +119,20 @@
   margin-right: auto;
 }
 
+.score {
+  width: 70vw;
+  height: 60vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 @media screen and (max-width: 700px) {
   .form {
     width: 70%;
+  }
+
+  .score {
+    width: 60vw;
+    height: 70vh;
   }
 }

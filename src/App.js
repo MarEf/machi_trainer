@@ -27,7 +27,7 @@ function App() {
   const [hands, setHands] = React.useState(new Array());
   /* Login status of user. WHY DO YOU NOT UPDATE RIGHT!? */
   const [login, setLogin] = React.useState(false)
-  const [currentUser, setCurrentUser] = React.useState("0")
+  const [currentUser, setCurrentUser] = React.useState(1)
 
   const handleTileSelection = (position, value) => {
     const updatedTileSelection = tileSelect.map((tile, index) => index === position ? !tile : tile)

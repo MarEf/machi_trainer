@@ -52,9 +52,9 @@ app.post('/api/hands', auth, (req, res) => {
 // Get score information about a specific user
 // Not currently implemented in frontend due to React being a [REDACTED] about login hooks
 app.get("/api/score/:id", auth, (req, res) => {
-    const id = req.get.params
+    const id = req.params.id
     const limit = 20
-    db.query("SELECT * FROM scores WHERE user_id=? LIMIT=?", [id, limit], (err, result) => {
+    db.query("SELECT * FROM scores WHERE user_id=? LIMIT ?", [id, limit], (err, result) => {
         if (err) {
             res.status(400).send({ message: "Failed to fetch score data" })
         } else {
@@ -90,10 +90,11 @@ app.post("api/score", auth, (req, res) => {
 // Get one user (only username and email)
 app.get('/api/users/:id', auth, (req, res) => {
     const id = req.params.id
-    db.query = ("SELECT username, email FROM users WHERE id=?", [id], (err, result) => {
+    db.query("SELECT username, email FROM users WHERE id=?", [id], (err, result) => {
         if (err) {
             res.status(400).send({ message: "No user data could be fetched" })
         } else if (result.length === 0) {
+
             res.status(404).send("User not found")
         } else {
             res.send(result)
