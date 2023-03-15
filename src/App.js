@@ -55,7 +55,9 @@ function App() {
         <div className='header'>
           <NavLink to="/" className={({ isActive }) => (isActive ? "link-active" : "link")}>Home</NavLink>
           <NavLink to="/challenge" className={({ isActive }) => (isActive ? "link-active" : "link")}>Challenge</NavLink>
-          <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
+          {login &&
+            <NavLink to="/hands" className={({ isActive }) => (isActive ? "link-active" : "link")}>Manage Hands</NavLink>
+          }
           {!login &&
             <NavLink to="/register" className={({ isActive }) => (isActive ? "link-active" : "link")}>Create Account</NavLink>
           }
